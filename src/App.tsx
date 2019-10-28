@@ -1,25 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, BrowserRouter as Router, Link, match } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import Store from './store/store';
+import Header from './components/Header/index';
+import AddUsers from './containers/AddUsers/AddUsers';
+import SignIn from './containers/SignIn/SignIn';
+import SignUp from './containers/SignUp/SignUp';
+import ViewUsers from './containers/ViewUsers/ViewUsers';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={Store()}>
+      
+      <Router>
+      <Header />
+        <Route  path="/addusers" component={AddUsers} />
+        <Route  path="/signin" component={SignIn} />
+        <Route  path="/signup" component={SignUp} />
+        <Route  path="/viewusers" component={ViewUsers} />
+      </Router>
+      
+    </Provider>
   );
 }
 
