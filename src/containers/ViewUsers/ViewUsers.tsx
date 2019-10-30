@@ -3,12 +3,14 @@ import{ connect } from 'react-redux';
 import { getAllUsers } from '../../store/rootReducer';
 import { fetchAllUsersAction } from '../../store/users/index';
 
-
-class ViewUsers extends React.Component <any, any>  {
+interface IViewUsersState {}
+interface IViewUsersProps {
+    users: any,
+    fetchAllUsersAction: Function
+}
+class ViewUsers extends React.Component <IViewUsersProps, IViewUsersState>  {
     constructor(props: any){
         super(props);
-
-   
 
         this.props.fetchAllUsersAction();
     }
@@ -31,6 +33,7 @@ class ViewUsers extends React.Component <any, any>  {
                                     {user.lastName},
                                     {user.email},
                                     {user.phoneNumber},
+                                    {user.roles.nonAdmin},
                                     {
                                         user.location.map((location: any)=>(
                                         <span>
@@ -39,22 +42,16 @@ class ViewUsers extends React.Component <any, any>  {
                                             {location.city}.
                                         </span>  
                                         ))
-                                    }
-                                    {user.roles.admin}
-                               
+                                    }  
                             </li>
                         </ul>
                     ))
                     : <p>No users available</p>
                 }
-
             </div>
         );
     }
-
     }
-  
-        
 
     const mapStateToProps = (state: any) => {
         const users = getAllUsers(state)

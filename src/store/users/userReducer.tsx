@@ -1,24 +1,26 @@
 import *  as actions from './actions';
+import { statement } from '@babel/template';
 
 const meta = {
     isFetching: false,
     errorMessage: '',
 }
 const allUsersInitailState = {
-    users: []
+    users: [],
+    meta,
 }
 
 const handleRequestAllUsers = (state: any) => ({
     ...state,
     meta: {
         ...meta,
-        isFettching: true
+        isFetching: true
     }
 });
 
-const handleRecieveAllUsers = (_:any, action: any) => {
+const handleRecieveAllUsers = (state:any, action: any) => {
     return {
-        users: action.users,
+        users: [...action.users, ...state.users],
         meta: {
             ...meta,
             isFetching: false,
@@ -27,12 +29,44 @@ const handleRecieveAllUsers = (_:any, action: any) => {
 
 }
 
+
 const handleAllUsersRequestError = (state: any,action: any) =>({
     ...state,
     meta: {
         ...meta,
         errorMessage: action.errorMessage
     }
+})
+
+const handleRequestAddUser = (state: any) => {
+    console.log('add user reducer');
+    return {
+            ...state,
+        meta: {
+            ...meta,
+            isFetching: true
+        }
+    }
+    
+
+};
+
+const handleReceiveAddNewUser = (state: any, action: any) => {
+return {
+    users:[...state.users, action.user],
+    meta: {
+        ...meta,
+        isFetching: false
+    }
+}
+};
+
+const handleAddNewUserError = (state: any, action: any) => ({
+...state,
+meta: {
+    ...meta,
+    errorMessage: action.error
+}
 })
 
 const AllUsersReducer = (state = allUsersInitailState, action: any) => {
@@ -43,6 +77,13 @@ const AllUsersReducer = (state = allUsersInitailState, action: any) => {
             return handleRecieveAllUsers(state, action);
         case actions.REJECT_ALL_USERS:
             return handleAllUsersRequestError(state, action);
+
+        case actions.REQUEST_ADD_USER:
+            return handleRequestAddUser(state);
+        case actions.REQUEST_RECEIVE_NEW_USER:
+            return handleReceiveAddNewUser(state, action);
+        case actions.REQUEST_REJECT_NEW_USER:
+            return handleAddNewUserError(state, action);
         
         default:
             return state;
