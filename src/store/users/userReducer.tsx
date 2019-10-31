@@ -1,5 +1,4 @@
 import *  as actions from './actions';
-import { statement } from '@babel/template';
 
 const meta = {
     isFetching: false,

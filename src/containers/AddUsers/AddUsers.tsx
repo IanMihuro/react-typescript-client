@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import{ connect } from 'react-redux';
 import { fetchAllUsersAction, addNewUserAction } from '../../store/users/index';
+import { IUser, IRedux, ILocation, IMeta } from '../../utils/Types';
+import { getAllUsers } from '../../store/rootReducer';
 import './styles.scss';
 
 interface IAddUSerState {
@@ -8,6 +10,7 @@ interface IAddUSerState {
     lastName: string,
     email: string,
     password: string,
+    phoneNumber: string,
     streetAddress: string,
     suiteNumber: string,
     city: string,
@@ -16,27 +19,9 @@ interface IAddUSerState {
     nonAdmin: string,  
 }
 
-interface INewUser {
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-    location: [
-        {
-            streetAddress: string,
-            suiteNumber: string,
-            city: string,
-            state: string,
-        }
-    ],
-    roles: {
-        admin: string,
-        nonAdmin: string,
-    },
-}
-
 interface IComponentProps {
     addNewUserAction: Function,
+    meta: IMeta,
 }
 
 class AddUsers extends Component <IComponentProps, IAddUSerState>  {
@@ -50,6 +35,7 @@ class AddUsers extends Component <IComponentProps, IAddUSerState>  {
             lastName: '',
             email: '',
             password: '',
+            phoneNumber: '',
             streetAddress: '',
             suiteNumber: '',
             city: '',
@@ -60,11 +46,10 @@ class AddUsers extends Component <IComponentProps, IAddUSerState>  {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
-
     }
 
 
-    handleChange = (event: any): void => {
+    handleChange (event: any): void {
         this.setState({
             [event.target.name]: event.target.value
         } as IAddUSerState)
@@ -72,13 +57,14 @@ class AddUsers extends Component <IComponentProps, IAddUSerState>  {
     
  
 
-    handleSubmit = (event: React.FormEvent<HTMLFormElement>): void=> {
+    handleSubmit (event: React.FormEvent<HTMLFormElement>): void {
         event.preventDefault();
         const { 
             firstName, 
             lastName,
             email,
             password,
+            phoneNumber,
             streetAddress,
             suiteNumber,
             city,
@@ -86,12 +72,15 @@ class AddUsers extends Component <IComponentProps, IAddUSerState>  {
             admin,
             nonAdmin, 
         }: IAddUSerState = this.state;
-        const newUser: INewUser = {
+
+        const newUser: IUser = {
+
             firstName,
             lastName,
             email,
             password,
-            location: [
+            phoneNumber,
+            location:[
                 {
                     streetAddress,
                     suiteNumber,
@@ -110,9 +99,10 @@ class AddUsers extends Component <IComponentProps, IAddUSerState>  {
 
     render(){
         const {
-            firstName, lastName, email, password, streetAddress, suiteNumber,
+            firstName, lastName, email, password, phoneNumber, streetAddress, suiteNumber,
             city, state, admin, nonAdmin
         } = this.state;
+        const { meta } = this.props;
         return(
             <div>
                 <div>
@@ -128,6 +118,8 @@ class AddUsers extends Component <IComponentProps, IAddUSerState>  {
                         <input type="email" name="email" onChange={this.handleChange} value={email} />
                         <label>Password</label>
                         <input type="password" name="password" onChange={this.handleChange} value={password} />
+                        <label>Phone Number</label>
+                        <input type="text" name="phoneNumber" onChange={this.handleChange} value={phoneNumber} />
                         <label>Street Address</label>
                         <input type="text" name="streetAddress" onChange={this.handleChange} value={streetAddress}/>
                         <label>Suite Number</label>
@@ -147,7 +139,7 @@ class AddUsers extends Component <IComponentProps, IAddUSerState>  {
                             <option value="false">False</option>
                         </select>
 
-                        <input type="submit" value="submit" />
+                        <input type="submit" value="submit" disabled={meta.isFetching} />
                     </form>
 
                 </div>
@@ -156,4 +148,12 @@ class AddUsers extends Component <IComponentProps, IAddUSerState>  {
         )
     }
 }
-export default connect(null, { fetchAllUsersAction, addNewUserAction })(AddUsers);
+
+const mapStateToProps = (state: IRedux) => {
+    const { meta } = getAllUsers(state)
+    return {
+        meta
+    }
+}
+
+export default connect(mapStateToProps, { fetchAllUsersAction, addNewUserAction })(AddUsers);
