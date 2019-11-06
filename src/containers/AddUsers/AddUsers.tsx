@@ -3,7 +3,15 @@ import{ connect } from 'react-redux';
 import { fetchAllUsersAction, addNewUserAction } from '../../store/users/index';
 import { IUser, IRedux, ILocation, IMeta } from '../../utils/Types';
 import { getAllUsers } from '../../store/rootReducer';
-import './styles.scss';
+
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
+import FormCheck from 'react-bootstrap/FormCheck';
+//import './styles.scss';
 
 interface IAddUSerState {
     firstName: string,
@@ -74,7 +82,7 @@ class AddUsers extends Component <IComponentProps, IAddUSerState>  {
         }: IAddUSerState = this.state;
 
         const newUser: IUser = {
-
+            _id:"",
             firstName,
             lastName,
             email,
@@ -104,47 +112,163 @@ class AddUsers extends Component <IComponentProps, IAddUSerState>  {
         } = this.state;
         const { meta } = this.props;
         return(
-            <div>
-                <div>
-                    Add Users
-                </div>
-                <div className="form">
-                    <form onSubmit={this.handleSubmit}>
-                        <label>First Name</label>
-                        <input type="text" name="firstName" onChange={this.handleChange} value={firstName} />
-                        <label>Last Name</label>
-                        <input type="text" name="lastName" onChange={this.handleChange} value={lastName} />
-                        <label>Email</label>
-                        <input type="email" name="email" onChange={this.handleChange} value={email} />
-                        <label>Password</label>
-                        <input type="password" name="password" onChange={this.handleChange} value={password} />
-                        <label>Phone Number</label>
-                        <input type="text" name="phoneNumber" onChange={this.handleChange} value={phoneNumber} />
-                        <label>Street Address</label>
-                        <input type="text" name="streetAddress" onChange={this.handleChange} value={streetAddress}/>
-                        <label>Suite Number</label>
-                        <input type="text" name="suiteNumber" onChange={this.handleChange} value={suiteNumber} />
-                        <label>City</label>
-                        <input type="text" name="city" onChange={this.handleChange} value={city} />
-                        <label>State</label>
-                        <input type="text" name="state" onChange={this.handleChange} value={state} />
-                        <label>Admin</label> 
-                        <select name="admin" onChange={this.handleChange} value={admin}  >
-                            <option value="true">True</option>
-                            <option value="false" >False</option>
-                        </select>
-                        <label>Non Admin</label> 
-                        <select name="nonAdmin" onChange={this.handleChange} value={nonAdmin}>
-                            <option value="true">True</option>
-                            <option value="false">False</option>
-                        </select>
+            <Container>
+                <Row>
+                    <Col xs={12} md={12}><h3 className="text-center">Add User </h3></Col>
+                </Row>
+                <Row>
+                    <Col xs={12} md={12}>
 
-                        <input type="submit" value="submit" disabled={meta.isFetching} />
-                    </form>
+                    <Form onSubmit={this.handleSubmit}>
 
-                </div>
-                
-            </div>
+                        <Form.Group as={Row} controlId="formHorizontalEmail">
+                            <Form.Label column sm={2}>First Name</Form.Label>
+                            <Col sm={10}>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="First Name" 
+                                    name='firstName'
+                                    value={firstName}
+                                    onChange={this.handleChange}
+                                    required />
+                            </Col>
+                        </Form.Group>
+
+                        <Form.Group as={Row} controlId="formHorizontalEmail">
+                            <Form.Label column sm={2}>Last Name</Form.Label>
+                            <Col sm={10}>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Last Name" 
+                                    name='lastName'
+                                    value={lastName}
+                                    onChange={this.handleChange}
+                                    required />
+                            </Col>
+                        </Form.Group>
+
+                        <Form.Group as={Row} controlId="formHorizontalEmail">
+                            <Form.Label column sm={2}>Email</Form.Label>
+                            <Col sm={10}>
+                                <Form.Control 
+                                    type="email" 
+                                    placeholder="Email" 
+                                    name='email'
+                                    value={email}
+                                    onChange={this.handleChange}
+                                    required />
+                            </Col>
+                        </Form.Group>
+
+                        <Form.Group as={Row} controlId="formHorizontalEmail">
+                            <Form.Label column sm={2}>Password</Form.Label>
+                            <Col sm={10}>
+                                <Form.Control 
+                                    type="password" 
+                                    placeholder="Password" 
+                                    name='password'
+                                    value={password}
+                                    onChange={this.handleChange}
+                                    required />
+                            </Col>
+                        </Form.Group>
+
+                        <Form.Group as={Row} controlId="formHorizontalEmail">
+                            <Form.Label column sm={2}>Phone Number</Form.Label>
+                            <Col sm={10}>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Phone Number" 
+                                    name='phoneNumber'
+                                    value={phoneNumber}
+                                    onChange={this.handleChange} />
+                            </Col>
+                        </Form.Group>
+
+                        <Form.Row>
+
+                            <Form.Group as={Col} md="3" controlId="validationCustom03">
+                                <Form.Label>Street Address</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Street Address"
+                                    name='streetAddress'
+                                    value={streetAddress}
+                                    onChange={this.handleChange} />   
+                            </Form.Group>
+
+                            <Form.Group as={Col} md="3" controlId="validationCustom04">
+                                <Form.Label>Suite Number</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Suite Number"
+                                    name='suiteNumber'
+                                    value={suiteNumber}
+                                    onChange={this.handleChange} />
+                            </Form.Group>
+
+                            <Form.Group as={Col} md="3" controlId="validationCustom05">
+                                <Form.Label>City</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="City" 
+                                    name='city'
+                                    value={city}
+                                    onChange={this.handleChange} />
+                            </Form.Group>
+
+                            <Form.Group as={Col} md="3" controlId="validationCustom05">
+                                <Form.Label>State</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="State"
+                                    value={state} 
+                                    onChange={this.handleChange} />
+                                <Form.Control.Feedback type="invalid">
+                                    Please provide a valid zip.
+                                </Form.Control.Feedback>
+                            </Form.Group>
+
+                        </Form.Row>
+
+                        <Form.Row>
+                            <Form.Group as={Col} md="6">
+                                <Form.Label>Admin Rights</Form.Label>
+                                <Form.Control 
+                                    as="select"
+                                    name="admin"
+                                    onChange={this.handleChange}
+                                    value={admin}>
+                                        <option value="true">True</option>
+                                        <option value="false" >False</option>
+                                </Form.Control>
+                            </Form.Group>
+
+                            <Form.Group as={Col} md="6">
+                                <Form.Label>Admin Rights</Form.Label>
+                                <Form.Control 
+                                    as="select"
+                                    name="nonAdmin"
+                                    onChange={this.handleChange}
+                                    value={nonAdmin}>
+                                        <option value="true">True</option>
+                                        <option value="false" >False</option>
+                                </Form.Control>
+                            </Form.Group>
+                        </Form.Row>
+
+                        <Form.Group as={Row}>
+                            <Col sm={{ span: 10, offset: 2 }}>
+                                <Button type="submit" disabled={meta.isFetching}>Save</Button>
+                            </Col>
+                        </Form.Group>
+
+                        </Form>
+
+                    </Col>
+                </Row>
+            </Container>
+
         )
     }
 }

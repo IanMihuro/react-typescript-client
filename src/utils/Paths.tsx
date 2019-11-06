@@ -1,0 +1,1 @@
+export const HTTP_PATH = 'http://localhost:3001/user';
