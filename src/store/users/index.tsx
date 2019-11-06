@@ -1,2 +1,2 @@
 export * from './actionCreator';
-export {default, getAllUsers } from './reducer';
+export {default, getAllUsers, getEditUser } from './reducer';
