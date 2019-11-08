@@ -153,6 +153,41 @@ export const editUserAction = (user: Interface.IUser) => {
             dispatch(rejectEditAction(error.message))
         }
     }
+};
+
+export const requestDeleteAction = () => ({
+    type: actions.REQUEST_DELETE_USER
+});
+
+export const receiveDeleteAction = ( _id: string) => ({
+    type: actions.RECEIVE_DELETE_USER,
+    _id
+});
+
+export const rejectDeleteUser = (error: string) => ({
+    type: actions.REJECT_DELETE_USER,
+    error
+});
+
+export const deleteUserAction = (_id: string) => {
+    return (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
+        dispatch( requestDeleteAction());
+        try {
+            fetch(http.HTTP_PATH+'/'+_id, {
+                method: 'DELETE',
+                headers: requestHeaders,
+            })
+            .then((resposne) => {
+                return resposne.json()
+            })
+            .then((data) => {
+                dispatch(receiveDeleteAction(_id));
+            })
+        }
+        catch(error) {
+            dispatch(rejectDeleteUser(error.message))
+        }
+    }
 }
 
 

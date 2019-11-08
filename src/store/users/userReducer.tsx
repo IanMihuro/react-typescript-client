@@ -66,7 +66,37 @@ meta: {
     ...meta,
     errorMessage: action.error
 }
-})
+});
+
+const handleRequestDelete = (state: any) => ({
+    ...state,
+    meta: {
+        ...meta,
+        isFetching: true
+    }
+});
+
+const handleReceiveDelete = (state: any, action: any) => {
+    return {
+        ...state,
+        users: state.users.filter((user: any) => action._id !== user._id ),
+        meta: {
+            ...meta,
+            isFetching: false
+        }
+    }
+};
+
+const handleRejectDelete = (state: any, action: any) => ({
+    ...state,
+    meta: {
+        ...meta,
+        isFetching: false,
+        errorMessage: action.error
+    }
+});
+
+
 
 const AllUsersReducer = (state = allUsersInitailState, action: any) => {
     switch(action.type) {
@@ -83,6 +113,13 @@ const AllUsersReducer = (state = allUsersInitailState, action: any) => {
             return handleReceiveAddNewUser(state, action);
         case actions.REQUEST_REJECT_NEW_USER:
             return handleAddNewUserError(state, action);
+
+        case actions.REQUEST_DELETE_USER:
+            return handleRequestDelete(state)
+        case actions.RECEIVE_DELETE_USER:
+            return handleReceiveDelete(state, action);
+        case actions.REJECT_DELETE_USER:
+            return handleRejectDelete(state, action);
         
         default:
             return state;

@@ -3,10 +3,10 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Store from './store/store';
 import Header from './components/Header/index';
-import AddUsers from './containers/AddUsers/AddUsers';
-import SignIn from './containers/SignIn/SignIn';
-import SignUp from './containers/SignUp/SignUp';
-import ViewUsers from './containers/ViewUsers/ViewUsers';
+import AddUsers from './containers/AddUsers';
+import SignIn from './containers/SignIn';
+import SignUp from './containers/SignUp';
+import ViewUsers from './containers/ViewUsers';
 import EditUser from './containers/EditUsers';
 
 import * as Routes from './utils/Routes';

@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import{ connect } from 'react-redux';
-import { withRouter, RouteComponentProps } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
-import { IUser, IMeta, ILocation } from '../../utils/Types';
+import { IUser, IMeta } from '../../utils/Types';
 import { getAllUsers } from '../../store/rootReducer';
-import { fetchAllUsersAction } from '../../store/users/index';
+import { fetchAllUsersAction, deleteUserAction } from '../../store/users/index';
 
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
@@ -12,36 +12,102 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import * as Routes from '../../utils/Routes';
+import DeleteModal from '../../components/Modals/deleteModal';
 
-interface IViewUsersState {}
+
+interface IViewUsersState {
+    user: IUser,
+    showModal: boolean,
+    userToDelete?: any
+}
 interface IViewUsersProps {
     users: IUser[],
     meta: IMeta,
     fetchAllUsersAction: Function,
+    deleteUserAction: Function,
     history: any,
 }
 class ViewUsers extends React.Component <IViewUsersProps, IViewUsersState>  {
     constructor(props: any){
         super(props);
 
-        this.props.fetchAllUsersAction();
+        this.state = {
+            user: {
+            _id: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            phoneNumber: '',
+            location: [
+                {
+                    streetAddress: '',
+                    suiteNumber: '',
+                    city: '',
+                    state: '',
+                }
+            ],
+            roles: {
+                admin: 'false',
+                nonAdmin: 'false', 
+
+            }
+            },
+            showModal: false,
+            userToDelete: {}
+        }
+
+        
 
         this.handleEdit = this.handleEdit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
+
+        this.props.fetchAllUsersAction();
     }
 
     handleEdit(user: IUser) {
         const id = user._id;
         this.props.history.push(`/edit/${id}`);
     }
-    handleDelete(user: IUser) {}
+
+    handleDelete(user: IUser) {
+        this.setState({
+            showModal: true,
+            userToDelete: user
+        });
+        
+    }
+
+    deleteUser(_id:string) {
+        console.log(_id);
+        this.props.deleteUserAction(_id);
+        this.setState({
+            showModal: false
+        })
+    }
+
+    handleCloseModal(): void {
+        this.setState({
+            showModal: false
+        });
+        
+    }
+
 
     
     render(){
         const { users, meta } = this.props;
+        const { showModal, user, userToDelete } = this.state;
         return (
             <Container>
+                <DeleteModal 
+                    user={userToDelete} 
+                    show={showModal}
+                    handleClose={this.handleCloseModal}
+                    handleDelete={this.deleteUser}
+                />
                 <Row>
                     <Col xs={12} md={12}>
                         <h3 className="text-center">View Users</h3>
@@ -112,5 +178,5 @@ class ViewUsers extends React.Component <IViewUsersProps, IViewUsersState>  {
         }
     }
 
-    export default withRouter(connect(mapStateToProps, {fetchAllUsersAction})(ViewUsers));
+    export default withRouter(connect(mapStateToProps, {fetchAllUsersAction, deleteUserAction})(ViewUsers));
   
