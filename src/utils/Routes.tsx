@@ -1,5 +1,5 @@
-export const ADD_USER = "/add";
-export const EDIT_USER = "/edit/:id";
-export const VIEW_USERS = "/view";
-export const SIGN_IN = "/signin";
-export const SIGN_UP = "/signup";
+export const ADD_USER = "/add-user";
+export const EDIT_USER = "/edit-user/:id";
+export const VIEW_USERS = "/";
+export const SIGN_IN = "/sign-in";
+export const SIGN_UP = "/sign-up";
