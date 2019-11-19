@@ -26,3 +26,11 @@ export interface IMeta {
   errorMessage: string;
   successMessage: string;
 }
+
+export interface iFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+}

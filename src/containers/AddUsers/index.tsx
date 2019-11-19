@@ -110,7 +110,7 @@ class AddUsers extends Component<IComponentProps, IAddUSerState> {
     event.preventDefault();
 
     if (validateForm(this.state.errors)) {
-      //this.submitDataEvent();
+      this.submitDataEvent();
     } else {
       console.log("Invalid Form..."); //TODO replace with alert
     }
@@ -218,7 +218,4 @@ const mapStateToProps = (state: IRedux) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { addNewUserAction }
-)(AddUsers);
+export default connect(mapStateToProps, { addNewUserAction })(AddUsers);
