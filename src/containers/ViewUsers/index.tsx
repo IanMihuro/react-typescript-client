@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import { IUser, IMeta } from "../../utils/Types";
 import { getAllUsers } from "../../store/rootReducer";
 import { fetchAllUsersAction, deleteUserAction } from "../../store/users/index";
+import { EDIT_USER } from "../../utils/Routes";
 
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
@@ -32,7 +33,6 @@ class ViewUsers extends React.Component<IViewUsersProps, IViewUsersState> {
 
     this.state = {
       user: {
-        _id: "",
         firstName: "",
         lastName: "",
         email: "",
@@ -46,10 +46,7 @@ class ViewUsers extends React.Component<IViewUsersProps, IViewUsersState> {
             state: ""
           }
         ],
-        roles: {
-          admin: "false",
-          nonAdmin: "false"
-        }
+        role: false
       },
       showModal: false,
       userToDelete: {}
@@ -65,7 +62,7 @@ class ViewUsers extends React.Component<IViewUsersProps, IViewUsersState> {
 
   handleEdit(user: IUser) {
     const id = user._id;
-    this.props.history.push(`/edit/${id}`);
+    this.props.history.push(`/edit-user/${id}`);
   }
 
   handleDelete(user: IUser) {
